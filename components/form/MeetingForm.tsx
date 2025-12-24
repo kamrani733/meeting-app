@@ -98,14 +98,24 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
   
   const isFormValid = (hasRequiredFields && isValid) || isDirty;
 
+  const getTitle = () => {
+    if (firstName && lastName) {
+      return `Meeting with ${firstName} ${lastName}`;
+    }
+    if (firstName) {
+      return `Meeting with ${firstName}`;
+    }
+    return "Schedule a Meeting";
+  };
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-6">
         <div>
-          <p className="text-gray-900 mb-1" style={{  fontWeight: 600, fontSize: "1.25rem", lineHeight: "1.75rem", letterSpacing: "0%" }}>
+          <p className="text-gray-900 mb-1" style={{ fontWeight: 600, fontSize: "1.25rem", lineHeight: "1.75rem", letterSpacing: "0%" }}>
             Enter your details to confirm your meeting time.
           </p>
-          <p className="text-gray-600" style={{  fontWeight: 400, fontSize: "1.125rem", lineHeight: "1.75rem", letterSpacing: "0%" }}>
+          <p className="text-gray-600" style={{ fontWeight: 400, fontSize: "1.125rem", lineHeight: "1.75rem", letterSpacing: "0%" }}>
             We'll notify the agent right away.
           </p>
         </div>

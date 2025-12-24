@@ -33,8 +33,15 @@ export default function MeetingSuccessPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-white flex items-center  justify-center px-4 py-12 relative">
+      <h1 className="hidden md:block absolute top-8 left-8  text-gray-900 font-semibold text-xl">
+        Meeting with {meeting.firstName} {meeting.lastName}
+      </h1>
       <div className="max-w-md w-full text-center space-y-8">
+        <h1 className="md:hidden absolute top-8 left-8  text-gray-900 font-semibold text-xl mb-4">
+          Meeting with {meeting.firstName} {meeting.lastName}
+        </h1>
+        
         <div className="relative flex items-center justify-center py-12">
           <div
             className="absolute inset-0 opacity-10"
@@ -73,9 +80,9 @@ export default function MeetingSuccessPage() {
             onClick={() => router.push(`/meetings/${id}/edit`)}
             className="w-full sm:flex-1"
             style={{
-              backgroundColor: "#7F56D9",
+              backgroundColor: "#F4F0FF",
               borderColor: "#7F56D9",
-              color: "#FFFFFF",
+              color: "#7F56D9",
             }}
           >
             Edit Meeting
