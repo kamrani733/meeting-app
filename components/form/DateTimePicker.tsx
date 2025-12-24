@@ -33,7 +33,7 @@ export const DateTimePicker: React.FC = () => {
   return (
     <>
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-900">
+        <label className="block text-sm font-medium text-gray-900" style={{  fontWeight: 500, fontSize: "0.875rem", lineHeight: "1.25rem", letterSpacing: "0%" }}>
           Date & Time <span className="text-red-500">*</span>
         </label>
         <button

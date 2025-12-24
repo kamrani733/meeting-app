@@ -78,15 +78,7 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
   const scheduleDate = watch("scheduleDate");
   const scheduleTime = watch("scheduleTime");
 
-  const getTitle = () => {
-    if (firstName && lastName) {
-      return `Meeting with ${firstName} ${lastName}`;
-    }
-    if (firstName) {
-      return `Meeting with ${firstName}`;
-    }
-    return "Schedule a Meeting";
-  };
+ 
 
   const onError = (errors: Record<string, any>) => {
     const firstError = Object.keys(errors)[0];
@@ -110,20 +102,17 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-6">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900 mb-2">
-            {getTitle()}
-          </h1>
-          <p className="text-lg font-medium text-gray-900 mb-1">
+          <p className="text-gray-900 mb-1" style={{  fontWeight: 600, fontSize: "1.25rem", lineHeight: "1.75rem", letterSpacing: "0%" }}>
             Enter your details to confirm your meeting time.
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-gray-600" style={{  fontWeight: 400, fontSize: "1.125rem", lineHeight: "1.75rem", letterSpacing: "0%" }}>
             We'll notify the agent right away.
           </p>
         </div>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-900" style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 500, fontSize: "0.875rem", lineHeight: "1.25rem", letterSpacing: "0%" }}>
+            <label className="block text-sm font-medium text-gray-900" style={{  fontWeight: 500, fontSize: "0.875rem", lineHeight: "1.25rem", letterSpacing: "0%" }}>
               First Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -140,7 +129,7 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-900" style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 500, fontSize: "0.875rem", lineHeight: "1.25rem", letterSpacing: "0%" }}>
+            <label className="block text-sm font-medium text-gray-900" style={{  fontWeight: 500, fontSize: "0.875rem", lineHeight: "1.25rem", letterSpacing: "0%" }}>
               Last Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -157,7 +146,7 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-900">
+            <label className="block text-sm font-medium text-gray-900" style={{  fontWeight: 500, fontSize: "0.875rem", lineHeight: "1.25rem", letterSpacing: "0%" }}>
               Email <span className="text-red-500">*</span>
             </label>
             <input
@@ -178,7 +167,7 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
           <DateTimePicker />
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-900">
+            <label className="block text-sm font-medium text-gray-900" style={{  fontWeight: 500, fontSize: "0.875rem", lineHeight: "1.25rem", letterSpacing: "0%" }}>
               Purpose of Meeting (max - 250 chars)
             </label>
             <textarea
@@ -200,7 +189,7 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
           type="submit" 
           disabled={isLoading || !isFormValid} 
           variant={isFormValid ? "purple-filled" : "primary"}
-          className="w-full md:w-[159px] md:h-[44px]"
+          className="w-full flex items-center justify-center md:w-auto md:h-[44px]"
         >
           {isLoading ? "Submitting..." : "Submit Request"}
         </Button>

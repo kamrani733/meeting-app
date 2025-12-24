@@ -47,7 +47,7 @@ export default function MeetingSuccessPage() {
             }}
           />
           
-          <div className="relative w-24 h-24 rounded-full flex items-center justify-center" style={{ backgroundColor: "#F4F0FF" }}>
+          <div className="relative w-24 h-24 rounded-full flex items-center justify-center border-2" style={{ backgroundColor: "#F4F0FF", borderColor: "#7F56D9" }}>
             <Image
               src="/Tick.png"
               alt="Success checkmark"
@@ -58,20 +58,25 @@ export default function MeetingSuccessPage() {
           </div>
         </div>
 
-        <h2 className="text-2xl font-semibold text-gray-900">Meeting Created</h2>
+        <h2 className="text-gray-900 text-center" style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 600, fontSize: "1.25rem", lineHeight: "1.75rem", letterSpacing: "0%" }}>Meeting Created</h2>
 
-        <div className="flex gap-4 pt-4">
+        <div className="flex flex-col sm:flex-row gap-4 pt-4">
           <Button
             variant="secondary"
             onClick={() => router.push("/meetings/create")}
-            className="flex-1"
+            className="w-full sm:flex-1"
           >
             Add New One
           </Button>
           <Button
             variant="purple"
             onClick={() => router.push(`/meetings/${id}/edit`)}
-            className="flex-1"
+            className="w-full sm:flex-1"
+            style={{
+              backgroundColor: "#7F56D9",
+              borderColor: "#7F56D9",
+              color: "#FFFFFF",
+            }}
           >
             Edit Meeting
           </Button>
