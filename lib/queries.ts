@@ -52,15 +52,9 @@ export const useCreateMeeting = () => {
   return useMutation({
     mutationFn: async (data: MeetingFormData) => {
       const apiData = mapFormDataToApi(data);
-      console.log("Sending API data:", JSON.stringify(apiData, null, 2));
-      try {
-        const response = await api.post("/meetings", apiData);
-        const meetingData = response.data.data || response.data;
-        return mapApiToMeeting(meetingData);
-      } catch (error: any) {
-        console.error("API Error:", error.response?.data || error.message);
-        throw error;
-      }
+      const response = await api.post("/meetings", apiData);
+      const meetingData = response.data.data || response.data;
+      return mapApiToMeeting(meetingData);
     },
     onSuccess: (data: Meeting) => {
       queryClient.setQueryData(["meeting", data.id], data);

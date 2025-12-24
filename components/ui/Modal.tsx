@@ -26,15 +26,12 @@ export const Modal: React.FC<ModalProps> = ({
       className="fixed inset-0 z-50 flex items-center justify-center"
       onClick={onClose}
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
       
-      {/* Modal */}
       <div
-        className="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 max-h-[90vh] overflow-hidden flex flex-col"
+        className="relative bg-white rounded-lg shadow-xl w-full max-w-md md:max-w-2xl mx-4 max-h-[90vh] overflow-hidden flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="px-6 py-4 border-b border-gray-200">
           <div className="flex items-start justify-between">
             <div className="flex-1">
@@ -64,10 +61,8 @@ export const Modal: React.FC<ModalProps> = ({
           </div>
         </div>
 
-        {/* Content */}
         <div className="flex-1 overflow-y-auto px-6 py-4">{children}</div>
 
-        {/* Footer */}
         {footer && (
           <div className="px-6 py-4 border-t border-gray-200">{footer}</div>
         )}

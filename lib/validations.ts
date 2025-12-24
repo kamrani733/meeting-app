@@ -35,7 +35,6 @@ export const meetingSchema = z
           const dateStr = data.scheduleDate;
           const timeStr = data.scheduleTime;
           
-          // Map schedule time ID to actual time
           const scheduleTimeMap: Record<number, string> = {
             1: "15:00:00",
             2: "16:00:00",
@@ -47,14 +46,13 @@ export const meetingSchema = z
           const time = scheduleTimeMap[scheduleTimeId];
           
           if (!time) {
-            return true; // If time ID is invalid, skip validation
+            return true;
           }
           
-          // Combine date and time
           const meetingDateTime = new Date(dateStr + "T" + time);
           
           if (isNaN(meetingDateTime.getTime())) {
-            return true; // If date is invalid, skip validation
+            return true;
           }
           
           const now = new Date();

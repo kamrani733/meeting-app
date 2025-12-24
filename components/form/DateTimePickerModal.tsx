@@ -87,14 +87,24 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
         <Button
           onClick={handleChoose}
           disabled={!selectedTimeSlot}
-          className="w-full bg-purple-500 hover:bg-purple-600 text-white border-purple-600"
+          className="w-full md:w-auto text-white"
+          style={{ 
+            backgroundColor: "#7F56D9", 
+            borderColor: "#6945B3",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "#6945B3";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "#7F56D9";
+          }}
         >
           {MODAL_TEXTS.dateTime.chooseButton}
         </Button>
       }
     >
-      <div className="space-y-6">
-        <div>
+      <div className="md:flex md:gap-6 md:space-y-0 space-y-6">
+        <div className="md:flex-1">
           <div className="flex items-center justify-between mb-4">
             <button
               onClick={goToPreviousMonth}
@@ -142,9 +152,20 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
                   className={`
                     aspect-square rounded-lg text-sm font-medium transition-colors
                     ${!isAvailable ? "text-gray-300 cursor-not-allowed" : "text-gray-900 hover:bg-gray-100"}
-                    ${isSelected ? "bg-purple-500 text-white hover:bg-purple-600" : ""}
-                    ${isToday && !isSelected ? "ring-2 ring-purple-300" : ""}
+                    ${isSelected ? "text-white" : ""}
+                    ${isToday && !isSelected ? "ring-2" : ""}
                   `}
+                  style={isSelected ? { backgroundColor: "#7F56D9" } : isToday && !isSelected ? { borderColor: "#BDA2FF", boxShadow: "0 0 0 2px #BDA2FF" } : {}}
+                  onMouseEnter={(e) => {
+                    if (isSelected && !e.currentTarget.disabled) {
+                      e.currentTarget.style.backgroundColor = "#6945B3";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (isSelected && !e.currentTarget.disabled) {
+                      e.currentTarget.style.backgroundColor = "#7F56D9";
+                    }
+                  }}
                 >
                   {date.getDate()}
                   {isSelected && (
@@ -157,23 +178,28 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
         </div>
 
         {currentTimeSlots.length > 0 && (
-          <div>
-            <h4 className="text-sm font-medium text-gray-900 mb-3">
+          <div className="md:flex-1">
+            <h4 className="text-sm w-[180px] font-bold  m-auto text-gray-900 mb-3">
               {MODAL_TEXTS.dateTime.freeSlotsLabel} {MONTH_NAMES[selectedDate.getMonth()]} {selectedDate.getDate()}
             </h4>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 mx-2 gap-2">
               {currentTimeSlots.map((slot) => (
                 <button
-                  key={slot.value}
-                  onClick={() => handleTimeSlotClick(slot)}
-                  className={`
-                    px-4 py-2 rounded-lg border-2 text-sm font-medium transition-colors
-                    ${selectedTimeSlot === slot.value
-                      ? "border-purple-500 bg-purple-50 text-purple-700"
-                      : "border-gray-200 bg-white text-gray-900 hover:border-gray-300"
-                    }
-                  `}
-                >
+                    key={slot.value}
+                    onClick={() => handleTimeSlotClick(slot)}
+                    className={`
+                      px-4 py-2 w-[180px] m-auto rounded-lg border-2 text-sm font-medium transition-colors
+                      ${selectedTimeSlot === slot.value
+                        ? "text-primary-700"
+                        : "border-gray-200 bg-white text-gray-900 hover:border-gray-300"
+                      }
+                    `}
+                    style={selectedTimeSlot === slot.value ? { 
+                      borderColor: "#7F56D9", 
+                      backgroundColor: "#F4F0FF",
+                      color: "#53348D"
+                    } : {}}
+                  >
                   {slot.label}
                 </button>
               ))}

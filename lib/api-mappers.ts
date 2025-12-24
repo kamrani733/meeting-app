@@ -31,25 +31,18 @@ export const mapFormDataToApi = (data: MeetingFormData) => {
 
   let contactValue = data.contactValue;
   if (data.contactMethod === "phone") {
-    const cleaned = data.contactValue.replace(/\s/g, "");
+    const cleaned = data.contactValue.replace(/\s/g, "").replace(/-/g, "");
     
     if (cleaned.startsWith("+989") && cleaned.length === 13) {
       contactValue = cleaned;
     } else if (cleaned.startsWith("+98") && cleaned.length > 3) {
-      const digits = cleaned.slice(3);
+      const digits = cleaned.slice(3).replace(/\D/g, "");
       if (digits.length === 10 && digits.startsWith("9")) {
         contactValue = "+98" + digits;
       } else if (digits.length === 9) {
         contactValue = "+989" + digits;
       } else {
-        const onlyDigits = digits.replace(/\D/g, "");
-        if (onlyDigits.length === 10 && onlyDigits.startsWith("9")) {
-          contactValue = "+98" + onlyDigits;
-        } else if (onlyDigits.length === 9) {
-          contactValue = "+989" + onlyDigits;
-        } else {
-          contactValue = cleaned;
-        }
+        contactValue = cleaned;
       }
     } else if (cleaned.startsWith("989") && cleaned.length === 12) {
       contactValue = "+" + cleaned;
@@ -61,14 +54,13 @@ export const mapFormDataToApi = (data: MeetingFormData) => {
         contactValue = "+98" + onlyDigits;
       } else if (onlyDigits.length === 9) {
         contactValue = "+989" + onlyDigits;
+      } else if (onlyDigits.startsWith("989") && onlyDigits.length === 12) {
+        contactValue = "+" + onlyDigits;
       } else {
         contactValue = cleaned;
       }
     }
     
-    if (!contactValue.match(/^\+989\d{9}$/)) {
-      console.warn("Phone number format may be invalid:", contactValue, "from:", data.contactValue);
-    }
   }
 
   return {

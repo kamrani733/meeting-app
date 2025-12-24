@@ -92,7 +92,8 @@ export const ContactMethodModal: React.FC<ContactMethodModalProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={MODAL_TEXTS.contactMethod.searchPlaceholder}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+              style={{ "--tw-ring-color": "#7F56D9" } as React.CSSProperties}
             />
           </div>
         </div>
@@ -107,7 +108,7 @@ export const ContactMethodModal: React.FC<ContactMethodModalProps> = ({
                 className={`
                   w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left
                   ${isSelected
-                    ? "bg-gray-100 border-2 border-purple-500"
+                    ? "bg-gray-100 border-2"
                     : "bg-white border-2 border-transparent hover:bg-gray-50"
                   }
                 `}
@@ -127,15 +128,16 @@ export const ContactMethodModal: React.FC<ContactMethodModalProps> = ({
                   </div>
                 </div>
                 <div className="shrink-0">
-                  <div
-                    className={`
-                      w-5 h-5 rounded-full border-2 flex items-center justify-center
-                      ${isSelected
-                        ? "border-purple-500 bg-purple-500"
-                        : "border-gray-300"
-                      }
-                    `}
-                  >
+                    <div
+                      className={`
+                        w-5 h-5 rounded-full border-2 flex items-center justify-center
+                        ${isSelected
+                          ? ""
+                          : "border-gray-300"
+                        }
+                      `}
+                      style={isSelected ? { borderColor: "#7F56D9", backgroundColor: "#7F56D9" } : {}}
+                    >
                     {isSelected && (
                       <div className="w-2 h-2 bg-white rounded-full" />
                     )}

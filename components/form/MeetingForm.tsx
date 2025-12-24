@@ -199,8 +199,8 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
         <Button 
           type="submit" 
           disabled={isLoading || !isFormValid} 
-          variant={isFormValid ? "purple" : "primary"}
-          className="w-full"
+          variant={isFormValid ? "purple-filled" : "primary"}
+          className="w-full md:w-auto"
         >
           {isLoading ? "Submitting..." : "Submit Request"}
         </Button>
