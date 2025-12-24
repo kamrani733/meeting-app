@@ -10,6 +10,7 @@ export const DateTimePicker: React.FC = () => {
     register,
     watch,
     setValue,
+    trigger,
     formState: { errors },
   } = useFormContext();
 
@@ -22,9 +23,11 @@ export const DateTimePicker: React.FC = () => {
     (t: { value: string; label: string }) => t.value === scheduleTime
   )?.label || "Select Date & Time";
 
-  const handleSelect = (date: string, time: string, value: string) => {
-    setValue("scheduleDate", date);
-    setValue("scheduleTime", value);
+  const handleSelect = async (date: string, time: string, value: string) => {
+    setValue("scheduleDate", date, { shouldValidate: true, shouldDirty: true });
+    setValue("scheduleTime", value, { shouldValidate: true, shouldDirty: true });
+    await trigger(["scheduleDate", "scheduleTime"]);
+    setIsModalOpen(false);
   };
 
   return (
@@ -75,6 +78,8 @@ export const DateTimePicker: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
         onSelect={handleSelect}
         scheduleTimes={scheduleTimes}
+        initialTimeSlot={scheduleTime}
+        initialDate={scheduleDate}
       />
     </>
   );

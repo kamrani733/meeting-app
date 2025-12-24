@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 interface TimeSlot {
   value: string;
@@ -12,27 +12,36 @@ interface UseDateTimePickerProps {
   scheduleTimes: TimeSlot[];
   onSelect: (date: string, time: string, value: string) => void;
   onClose: () => void;
+  initialTimeSlot?: string;
 }
 
 export const useDateTimePicker = ({
   scheduleTimes,
   onSelect,
   onClose,
+  initialTimeSlot,
 }: UseDateTimePickerProps) => {
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(initialTimeSlot || null);
+
+  useEffect(() => {
+    if (initialTimeSlot) {
+      setSelectedTimeSlot(initialTimeSlot);
+    }
+  }, [initialTimeSlot]);
 
   const timeSlotsByDate = useMemo(() => {
-    return scheduleTimes.reduce((acc, slot) => {
-      const date =
-        slot.date ||
-        slot.value.split(" ")[0] ||
-        new Date().toISOString().split("T")[0];
-      if (!acc[date]) {
-        acc[date] = [];
+    const slotsByDate: Record<string, typeof scheduleTimes> = {};
+    
+    scheduleTimes.forEach((slot) => {
+      if (slot.date) {
+        if (!slotsByDate[slot.date]) {
+          slotsByDate[slot.date] = [];
+        }
+        slotsByDate[slot.date].push(slot);
       }
-      acc[date].push(slot);
-      return acc;
-    }, {} as Record<string, typeof scheduleTimes>);
+    });
+    
+    return slotsByDate;
   }, [scheduleTimes]);
 
   const availableDates = useMemo(
@@ -42,7 +51,13 @@ export const useDateTimePicker = ({
 
   const getTimeSlotsForDate = (date: Date) => {
     const dateStr = date.toISOString().split("T")[0];
-    return timeSlotsByDate[dateStr] || [];
+    const slotsForDate = timeSlotsByDate[dateStr];
+    
+    if (slotsForDate && slotsForDate.length > 0) {
+      return slotsForDate;
+    }
+    
+    return scheduleTimes;
   };
 
   const isDateAvailable = (date: Date) => {
@@ -59,36 +74,14 @@ export const useDateTimePicker = ({
   };
 
   const validateAndSelect = (selectedDate: Date, scheduleTimes: TimeSlot[]) => {
-    if (!selectedTimeSlot) return false;
-
-    const selectedSlot = scheduleTimes.find((s) => s.value === selectedTimeSlot);
-    if (selectedSlot) {
-      let meetingDateTime: Date;
-
-      if (
-        selectedSlot.value.includes("T") ||
-        selectedSlot.value.includes(" ")
-      ) {
-        meetingDateTime = new Date(selectedSlot.value);
-      } else {
-        const dateStr = selectedDate.toISOString().split("T")[0];
-        meetingDateTime = new Date(dateStr + "T" + selectedSlot.value);
-      }
-
-      const now = new Date();
-      if (meetingDateTime > now) {
-        const dateStr = selectedDate.toISOString().split("T")[0];
-        onSelect(dateStr, selectedTimeSlot, selectedTimeSlot);
-        onClose();
-        return true;
-      }
-    } else {
-      const dateStr = selectedDate.toISOString().split("T")[0];
-      onSelect(dateStr, selectedTimeSlot, selectedTimeSlot);
-      onClose();
-      return true;
+    if (!selectedTimeSlot) {
+      return false;
     }
-    return false;
+
+    const dateStr = selectedDate.toISOString().split("T")[0];
+    onSelect(dateStr, selectedTimeSlot, selectedTimeSlot);
+    onClose();
+    return true;
   };
 
   const resetTimeSlot = () => {

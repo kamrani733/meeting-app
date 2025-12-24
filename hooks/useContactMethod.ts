@@ -20,17 +20,17 @@ export const useContactMethod = () => {
   const contactValue = watch("contactValue");
 
   const handleMethodSelect = (method: ContactMethod) => {
-    setValue("contactMethod", method);
-    setValue("contactValue", "");
+    setValue("contactMethod", method, { shouldValidate: true, shouldDirty: true });
+    setValue("contactValue", "", { shouldValidate: true, shouldDirty: true });
   };
 
   const handleContactValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (contactMethod === "phone") {
       const formatted = formatPhoneNumber(value);
-      setValue("contactValue", formatted, { shouldValidate: true });
+      setValue("contactValue", formatted, { shouldValidate: true, shouldDirty: true });
     } else {
-      setValue("contactValue", value, { shouldValidate: true });
+      setValue("contactValue", value, { shouldValidate: true, shouldDirty: true });
     }
   };
 

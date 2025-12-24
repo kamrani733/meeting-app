@@ -18,6 +18,8 @@ interface DateTimePickerModalProps {
   onClose: () => void;
   onSelect: (date: string, time: string, value: string) => void;
   scheduleTimes: Array<{ value: string; label: string; date?: string }>;
+  initialTimeSlot?: string;
+  initialDate?: string;
 }
 
 export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
@@ -25,6 +27,8 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
   onClose,
   onSelect,
   scheduleTimes,
+  initialTimeSlot,
+  initialDate,
 }) => {
   const {
     currentMonth,
@@ -35,7 +39,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
     handleDateClick,
     isDateInFuture,
     setSelectedDate,
-  } = useCalendar(new Date());
+  } = useCalendar(initialDate ? new Date(initialDate) : new Date());
 
   const {
     selectedTimeSlot,
@@ -49,6 +53,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
     scheduleTimes,
     onSelect,
     onClose,
+    initialTimeSlot,
   });
 
   const currentTimeSlots = getTimeSlotsForDate(selectedDate);
@@ -69,7 +74,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
   };
 
   const checkDateAvailability = (date: Date) => {
-    return isDateAvailable(date) && isDateInFuture(date);
+    return isDateInFuture(date);
   };
 
   return (

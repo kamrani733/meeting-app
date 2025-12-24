@@ -35,28 +35,26 @@ export const meetingSchema = z
           const dateStr = data.scheduleDate;
           const timeStr = data.scheduleTime;
           
-          let meetingDateTime: Date;
+          // Map schedule time ID to actual time
+          const scheduleTimeMap: Record<number, string> = {
+            1: "15:00:00",
+            2: "16:00:00",
+            3: "20:00:00",
+            4: "22:00:00",
+          };
           
-          if (timeStr.includes("T") || (timeStr.includes(" ") && timeStr.includes(":"))) {
-            meetingDateTime = new Date(timeStr);
-          } else if (dateStr && timeStr) {
-            const timeMatch = timeStr.match(/(\d+)-(\d+)\s*(am|pm)/i);
-            if (timeMatch) {
-              let startHour = parseInt(timeMatch[1]);
-              const period = timeMatch[3].toLowerCase();
-              if (period === "pm" && startHour !== 12) startHour += 12;
-              if (period === "am" && startHour === 12) startHour = 0;
-              
-              meetingDateTime = new Date(dateStr);
-              meetingDateTime.setHours(startHour, 0, 0, 0);
-            } else {
-              meetingDateTime = new Date(timeStr);
-              if (isNaN(meetingDateTime.getTime())) {
-                meetingDateTime = new Date(dateStr);
-              }
-            }
-          } else {
-            return true;
+          const scheduleTimeId = parseInt(timeStr);
+          const time = scheduleTimeMap[scheduleTimeId];
+          
+          if (!time) {
+            return true; // If time ID is invalid, skip validation
+          }
+          
+          // Combine date and time
+          const meetingDateTime = new Date(dateStr + "T" + time);
+          
+          if (isNaN(meetingDateTime.getTime())) {
+            return true; // If date is invalid, skip validation
           }
           
           const now = new Date();

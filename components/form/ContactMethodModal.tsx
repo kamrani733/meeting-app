@@ -98,11 +98,11 @@ export const ContactMethodModal: React.FC<ContactMethodModalProps> = ({
         </div>
 
         <div className="space-y-1 max-h-96 overflow-y-auto">
-          {filteredMethods.map((method) => {
+          {filteredMethods.map((method, index) => {
             const isSelected = selected === method.value;
             return (
               <button
-                key={method.value}
+                key={`contact-method-${method.value}-${method.label}-${index}`}
                 onClick={() => handleSelect(method.value)}
                 className={`
                   w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-left

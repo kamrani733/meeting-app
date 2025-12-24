@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { meetingSchema } from "@/lib/validations";
@@ -40,13 +40,30 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
     handleSubmit,
     register,
     watch,
-    formState: { errors },
+    reset,
+    formState: { errors, isValid, isDirty },
     setFocus,
   } = methods;
+
+  useEffect(() => {
+    if (defaultValues) {
+      reset({
+        firstName: defaultValues.firstName || "",
+        lastName: defaultValues.lastName || "",
+        email: defaultValues.email || "",
+        contactMethod: defaultValues.contactMethod || "phone",
+        contactValue: defaultValues.contactValue || "",
+        scheduleDate: defaultValues.scheduleDate || "",
+        scheduleTime: defaultValues.scheduleTime || "",
+        purpose: defaultValues.purpose || "",
+      });
+    }
+  }, [defaultValues, reset]);
 
   const firstName = watch("firstName");
   const lastName = watch("lastName");
   const email = watch("email");
+  const contactMethod = watch("contactMethod");
   const contactValue = watch("contactValue");
   const scheduleDate = watch("scheduleDate");
   const scheduleTime = watch("scheduleTime");
@@ -72,19 +89,12 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
     firstName?.trim() && 
     lastName?.trim() && 
     email?.trim() && 
+    contactMethod &&
     contactValue?.trim() && 
     scheduleDate && 
     scheduleTime;
   
-  const hasErrors = 
-    errors.firstName ||
-    errors.lastName ||
-    errors.email ||
-    errors.contactValue ||
-    errors.scheduleDate ||
-    errors.scheduleTime;
-  
-  const isFormValid = hasRequiredFields && !hasErrors;
+  const isFormValid = hasRequiredFields && isValid;
 
   return (
     <FormProvider {...methods}>
@@ -179,6 +189,7 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
         <Button 
           type="submit" 
           disabled={isLoading || !isFormValid} 
+          variant={isFormValid ? "purple" : "primary"}
           className="w-full"
         >
           {isLoading ? "Submitting..." : "Submit Request"}

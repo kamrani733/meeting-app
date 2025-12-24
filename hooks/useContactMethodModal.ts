@@ -32,8 +32,18 @@ export const useContactMethodModal = ({
     setSelected(selectedMethod);
   }, [selectedMethod]);
 
-  const methods =
-    contactMethods.length > 0 ? contactMethods : DEFAULT_CONTACT_METHODS;
+  const methods = useMemo(() => {
+    if (contactMethods.length > 0) {
+      const uniqueMethods = new Map<ContactMethod, ContactMethodOption>();
+      contactMethods.forEach((method) => {
+        if (!uniqueMethods.has(method.value)) {
+          uniqueMethods.set(method.value, method);
+        }
+      });
+      return Array.from(uniqueMethods.values());
+    }
+    return DEFAULT_CONTACT_METHODS;
+  }, [contactMethods]);
 
   const filteredMethods = useMemo(() => {
     if (!searchQuery) return methods;
