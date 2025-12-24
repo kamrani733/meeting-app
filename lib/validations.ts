@@ -7,7 +7,7 @@ export const meetingSchema = z
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
     email: z.string().email("Invalid email address"),
-    contactMethod: z.enum(["phone", "email", "whatsapp", "telegram", "facetime", "imo"]),
+    contactMethod: z.enum(["phone", "email", "whatsapp", "telegram", "facetime"]),
     contactValue: z.string().min(1, "Contact value is required"),
     scheduleDate: z.string().min(1, "Date is required"),
     scheduleTime: z.string().min(1, "Time is required"),

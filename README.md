@@ -15,7 +15,6 @@ A modern, enterprise-grade web application for managing user meetings built with
   - WhatsApp
   - Telegram
   - Face Time
-  - IMO
 - **Phone Number Formatting**: Automatic formatting to `+98 912 111 1111` format
 - **Date & Time Picker**: Interactive calendar modal with time slot selection
 - **Future Date Validation**: Only future dates and times can be selected
@@ -55,16 +54,51 @@ cd meeting-app
 npm install
 ```
 
-3. Start the development server:
+3. Set up and start the test server (required):
+```bash
+cd test-server
+npm install
+npm run dev
+```
+
+The test server will run on `http://localhost:3000`
+
+4. In a new terminal, start the Next.js development server:
+```bash
+cd meeting-app
+npm run dev
+```
+
+5. Open [http://localhost:3001](http://localhost:3001) (or the port shown in terminal) in your browser
+
+## API Setup
+
+The application requires a backend API server running on `http://localhost:3000/api`.
+
+### Test Server Requirements
+
+- **Node.js version**: 20.19.5 or higher
+
+### Test Server Setup
+
+1. Navigate to the test-server directory:
+```bash
+cd test-server
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the test server:
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+The test server will run on `http://localhost:3000` and provide all required API endpoints.
 
-## API Setup
-
-The application requires a backend API server running on `http://localhost:3000/api`. 
+**Note**: The test server must be running before starting the Next.js application. 
 
 ### API Endpoints
 
@@ -73,13 +107,20 @@ Returns available contact methods.
 
 **Response:**
 ```json
-[
-  {
-    "id": "phone",
-    "label": "Phone",
-    "icon": "📞"
-  }
-]
+{
+  "data": [
+    {
+      "id": 1,
+      "label": "Phone (Call & SMS)",
+      "icon": "http://localhost:3000/images/phone.png"
+    },
+    {
+      "id": 2,
+      "label": "WhatsApp",
+      "icon": "http://localhost:3000/images/whatsapp.png"
+    }
+  ]
+}
 ```
 
 #### GET `/api/schedule-times`
@@ -87,12 +128,18 @@ Returns available time slots for scheduling.
 
 **Response:**
 ```json
-[
-  {
-    "id": "1",
-    "label": "4-5 pm"
-  }
-]
+{
+  "data": [
+    {
+      "id": 1,
+      "label": "03:00 pm - 04:00 pm"
+    },
+    {
+      "id": 2,
+      "label": "04:00 pm - 05:00 pm"
+    }
+  ]
+}
 ```
 
 #### GET `/api/meetings/:id`
@@ -101,17 +148,19 @@ Returns meeting details by ID.
 **Response:**
 ```json
 {
-  "id": "1",
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john@example.com",
-  "contactMethod": "phone",
-  "contactValue": "+98 912 111 1111",
-  "scheduleTime": "2025-01-05T16:00:00",
-  "scheduleDate": "2025-01-05",
-  "purpose": "Business discussion",
-  "createdAt": "2025-01-01T10:00:00",
-  "updatedAt": "2025-01-01T10:00:00"
+  "data": {
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@example.com",
+    "contactMethod": 1,
+    "contactValue": "+98 912 111 1111",
+    "scheduleTime": 2,
+    "scheduleDate": "2025-01-05",
+    "purpose": "Business discussion",
+    "createdAt": "2025-01-01T10:00:00",
+    "updatedAt": "2025-01-01T10:00:00"
+  }
 }
 ```
 

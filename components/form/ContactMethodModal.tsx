@@ -1,8 +1,14 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React from "react";
+import Image from "next/image";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import {
+  CONTACT_METHOD_ICONS,
+  MODAL_TEXTS,
+} from "@/lib/constants";
+import { useContactMethodModal } from "@/hooks/useContactMethodModal";
 import type { ContactMethod } from "@/types/meeting";
 
 interface ContactMethodOption {
@@ -19,24 +25,6 @@ interface ContactMethodModalProps {
   selectedMethod?: ContactMethod;
 }
 
-const methodIcons: Record<ContactMethod, string> = {
-  phone: "📞",
-  email: "✉️",
-  whatsapp: "💬",
-  telegram: "✈️",
-  facetime: "📹",
-  imo: "💙",
-};
-
-const defaultMethods: ContactMethodOption[] = [
-  { value: "phone", label: "Phone (Call & SMS)" },
-  { value: "whatsapp", label: "WhatsApp" },
-  { value: "telegram", label: "Telegram" },
-  { value: "email", label: "Email" },
-  { value: "facetime", label: "Face Time" },
-  { value: "imo", label: "IMO" },
-];
-
 export const ContactMethodModal: React.FC<ContactMethodModalProps> = ({
   isOpen,
   onClose,
@@ -44,47 +32,41 @@ export const ContactMethodModal: React.FC<ContactMethodModalProps> = ({
   contactMethods = [],
   selectedMethod,
 }) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selected, setSelected] = useState<ContactMethod | undefined>(selectedMethod);
-
-  const methods = contactMethods.length > 0 ? contactMethods : defaultMethods;
-
-  const filteredMethods = useMemo(() => {
-    if (!searchQuery) return methods;
-    return methods.filter((method) =>
-      method.label.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [methods, searchQuery]);
-
-  const handleSelect = (method: ContactMethod) => {
-    setSelected(method);
-  };
-
-  const handleChoose = () => {
-    if (selected) {
-      onSelect(selected);
-      onClose();
-    }
-  };
+  const {
+    searchQuery,
+    setSearchQuery,
+    selected,
+    filteredMethods,
+    handleSelect,
+    handleChoose,
+  } = useContactMethodModal({
+    contactMethods,
+    selectedMethod,
+    onSelect,
+    onClose,
+  });
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Preferred Contact Method"
-      subtitle="Select your preferred contact method from the list."
+      title={MODAL_TEXTS.contactMethod.title}
+      subtitle={MODAL_TEXTS.contactMethod.subtitle}
       footer={
-        <Button
+          <Button
           onClick={handleChoose}
           disabled={!selected}
-          className="w-full bg-gray-200 hover:bg-gray-300 text-gray-900"
+          className={`w-full ${
+            selected
+              ? "bg-gray-200 hover:bg-gray-300 text-gray-900"
+              : "bg-gray-200 text-gray-400 cursor-not-allowed"
+          }`}
         >
-          Choose
+          {MODAL_TEXTS.contactMethod.chooseButton}
         </Button>
       }
     >
       <div className="space-y-4">
-        {/* Search */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Search
@@ -109,13 +91,12 @@ export const ContactMethodModal: React.FC<ContactMethodModalProps> = ({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search social media"
+              placeholder={MODAL_TEXTS.contactMethod.searchPlaceholder}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             />
           </div>
         </div>
 
-        {/* Contact Methods List */}
         <div className="space-y-1 max-h-96 overflow-y-auto">
           {filteredMethods.map((method) => {
             const isSelected = selected === method.value;
@@ -131,7 +112,15 @@ export const ContactMethodModal: React.FC<ContactMethodModalProps> = ({
                   }
                 `}
               >
-                <div className="text-2xl">{methodIcons[method.value]}</div>
+                <div className="w-6 h-6 shrink-0 flex items-center justify-center">
+                  <Image
+                    src={CONTACT_METHOD_ICONS[method.value]}
+                    alt={method.label}
+                    width={24}
+                    height={24}
+                    className="object-contain"
+                  />
+                </div>
                 <div className="flex-1">
                   <div className="text-sm font-medium text-gray-900">
                     {method.label}

@@ -1,98 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useFormContext } from "react-hook-form";
-import { useContactMethods } from "@/lib/queries";
 import { ContactMethodModal } from "./ContactMethodModal";
-import type { ContactMethod } from "@/types/meeting";
-
-const methodLabels: Record<ContactMethod, string> = {
-  phone: "Phone",
-  email: "Email",
-  whatsapp: "WhatsApp",
-  telegram: "Telegram",
-  facetime: "Face Time",
-  imo: "IMO",
-};
-
-const formatPhoneNumber = (value: string): string => {
-  let cleaned = value.replace(/[^\d+]/g, "");
-  
-  if (cleaned.startsWith("+98")) {
-    const digits = cleaned.slice(3);
-    if (digits.length <= 10) {
-      if (digits.length === 0) {
-        return "+98 ";
-      } else if (digits.length <= 3) {
-        return `+98 ${digits}`;
-      } else if (digits.length <= 6) {
-        return `+98 ${digits.slice(0, 3)} ${digits.slice(3)}`;
-      } else if (digits.length <= 10) {
-        return `+98 ${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`;
-      }
-    }
-    if (digits.length > 10) {
-      return `+98 ${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6, 10)}`;
-    }
-  } else if (cleaned.startsWith("98") && cleaned.length > 2) {
-    const digits = cleaned.slice(2);
-    if (digits.length <= 10) {
-      if (digits.length <= 3) {
-        return `+98 ${digits}`;
-      } else if (digits.length <= 6) {
-        return `+98 ${digits.slice(0, 3)} ${digits.slice(3)}`;
-      } else if (digits.length <= 10) {
-        return `+98 ${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`;
-      }
-    }
-  } else if (cleaned.length > 0 && !cleaned.startsWith("+") && !cleaned.startsWith("98")) {
-    if (cleaned.length <= 10) {
-      if (cleaned.length <= 3) {
-        return `+98 ${cleaned}`;
-      } else if (cleaned.length <= 6) {
-        return `+98 ${cleaned.slice(0, 3)} ${cleaned.slice(3)}`;
-      } else if (cleaned.length <= 10) {
-        return `+98 ${cleaned.slice(0, 3)} ${cleaned.slice(3, 6)} ${cleaned.slice(6)}`;
-      }
-    }
-  }
-  
-  return value;
-};
+import { CONTACT_METHOD_LABELS } from "@/lib/constants";
+import { useContactMethod } from "@/hooks/useContactMethod";
 
 export const ContactMethodField: React.FC = () => {
+  const { register } = useFormContext();
   const {
-    register,
-    watch,
-    setValue,
-    formState: { errors },
-  } = useFormContext();
-
-  const { data: contactMethods = [] } = useContactMethods();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const contactMethod = watch("contactMethod") as ContactMethod;
-  const contactValue = watch("contactValue");
-
-  const handleMethodSelect = (method: ContactMethod) => {
-    setValue("contactMethod", method);
-    setValue("contactValue", "");
-  };
-
-  const handleContactValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (contactMethod === "phone") {
-      const formatted = formatPhoneNumber(value);
-      setValue("contactValue", formatted, { shouldValidate: true });
-    } else {
-      setValue("contactValue", value, { shouldValidate: true });
-    }
-  };
-
-  const getPlaceholder = () => {
-    if (contactMethod === "phone") return "+98 912 111 1111";
-    if (contactMethod === "email") return "example@test.com";
-    return "Enter your contact information";
-  };
+    contactMethod,
+    contactMethods,
+    isModalOpen,
+    errors,
+    handleMethodSelect,
+    handleContactValueChange,
+    getPlaceholder,
+    openModal,
+    closeModal,
+  } = useContactMethod();
 
   return (
     <>
@@ -112,10 +38,12 @@ export const ContactMethodField: React.FC = () => {
           />
           <button
             type="button"
-            onClick={() => setIsModalOpen(true)}
+            onClick={openModal}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center gap-2 min-w-[120px] justify-between"
           >
-            <span>{contactMethod ? methodLabels[contactMethod] : "Select"}</span>
+            <span>
+              {contactMethod ? CONTACT_METHOD_LABELS[contactMethod] : "Select"}
+            </span>
             <svg
               className="w-5 h-5 text-gray-400"
               fill="none"
@@ -142,7 +70,7 @@ export const ContactMethodField: React.FC = () => {
 
       <ContactMethodModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={closeModal}
         onSelect={handleMethodSelect}
         contactMethods={contactMethods}
         selectedMethod={contactMethod}

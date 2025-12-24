@@ -1,0 +1,456 @@
+{
+	"info": {
+		"_postman_id": "49c9bbb5-ab0b-4021-80ef-86d331ee24f6",
+		"name": "React-Code-Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42426177"
+	},
+	"item": [
+		{
+			"name": "Get contact methods",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{L3000}}/contact-methods",
+					"host": [
+						"{{L3000}}"
+					],
+					"path": [
+						"contact-methods"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get contact methods",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/contact-methods",
+							"path": [
+								"contact-methods"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "476"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1dc-pIpDCHKc5cdud+us/498WaJlmN0\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 22 Dec 2025 18:33:35 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"label\": \"Phone (Call & SMS)\",\n            \"icon\": \"http://localhost:3000/images/phone.png\"\n        },\n        {\n            \"id\": 2,\n            \"label\": \"WhatsApp\",\n            \"icon\": \"http://localhost:3000/images/whatsapp.png\"\n        },\n        {\n            \"id\": 3,\n            \"label\": \"Telegram\",\n            \"icon\": \"http://localhost:3000/images/telegram.png\"\n        },\n        {\n            \"id\": 4,\n            \"label\": \"Email\",\n            \"icon\": \"http://localhost:3000/images/email.png\"\n        },\n        {\n            \"id\": 5,\n            \"label\": \"Face time\",\n            \"icon\": \"http://localhost:3000/images/facetime.png\"\n        },\n        {\n            \"id\": 6,\n            \"label\": \"IMO\",\n            \"icon\": \"http://localhost:3000/images/imo.png\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get schedule times",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{L3000}}/schedule-times",
+					"host": [
+						"{{L3000}}"
+					],
+					"path": [
+						"schedule-times"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Schedule times",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/schedule-times",
+							"path": [
+								"schedule-times"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "166"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"a6-S6he7RqSaJbGB+YDosCNwAjct8Y\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 22 Dec 2025 18:34:11 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"label\": \"03:00 pm - 04:00 pm\"\n        },\n        {\n            \"id\": 2,\n            \"label\": \"04:00 pm - 05:00 pm\"\n        },\n        {\n            \"id\": 3,\n            \"label\": \"08:00 pm - 09:00 pm\"\n        },\n        {\n            \"id\": 4,\n            \"label\": \"10:00 pm - 11:00 pm\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get meeting by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{L3000}}/meetings/1",
+					"host": [
+						"{{L3000}}"
+					],
+					"path": [
+						"meetings",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get meeting by id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/meetings/1",
+							"path": [
+								"meetings",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "408"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"198-ZdQUCVrlnO8KQqrZXAZgdPOyWRk\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 22 Dec 2025 18:35:43 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"firstName\": \"Ali\",\n        \"lastName\": \"Ghavidel\",\n        \"email\": \"a.ghavidel@gmail.com\",\n        \"scheduleTime\": {\n            \"id\": 4,\n            \"label\": \"10:00 pm - 11:00 pm\"\n        },\n        \"scheduleDate\": \"2025-12-22T00:00:00.000Z\",\n        \"contactMethod\": {\n            \"id\": 1,\n            \"label\": \"Phone (Call & SMS)\",\n            \"icon\": \"http://localhost:3000/images/phone.png\"\n        },\n        \"contactValue\": \"+989361761222\",\n        \"purpose\": \"\",\n        \"createdAt\": \"2025-12-21T20:11:23.000Z\",\n        \"updatedAt\": \"2025-12-22T18:29:49.000Z\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Add meeting",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxZGU2NDdiNC01Y2QxLTQwZDMtYWNkYy0yNTA3NzFhOWJlNzUiLCJuYW1lIjoiQXJ5YW4gV2F5bmUiLCJlbWFpbCI6ImFAYS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjYxNTY3MjIsImV4cCI6MTc2NjE1NzYyMn0.E6MXR8OclhG8IDRocZeAi6_iwN3nXBr2U5c0Bu-8GGM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Reza\",\n    \"lastName\": \"Rezaie\",\n    \"email\": \"a@a.com\",\n    \"contactMethod\": 1,\n    \"contactValue\": \"+989361761222\",\n    \"purpose\": \"My purpose is something...\",\n    \"scheduleTime\": 1,\n    \"scheduleDate\": \"2026-01-20T00:00:00.000Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{L3000}}/meetings",
+					"host": [
+						"{{L3000}}"
+					],
+					"path": [
+						"meetings"
+					]
+				},
+				"description": "| **field name** | **validation** |\n| --- | --- |\n| firstName | string, max-length = 250, required |\n| lastName | string, max-length = 250, required |\n| email | valid email, max-length = 250, required |\n| contactMethod | valid contact method id, required |\n| contactValue | valid contact method value, for email method it is valid email and for others is valid iranian phone number with +989xxxxxxxx format, required |\n| scheduleDate | valid ISO String datetime with 0 hours 0 minutes and 0 seconds in utc, required |\n| scheduleTime | valid schedule time id, required |\n| purpose | string, max-length = 250, optional |"
+			},
+			"response": [
+				{
+					"name": "Add meeting",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxZGU2NDdiNC01Y2QxLTQwZDMtYWNkYy0yNTA3NzFhOWJlNzUiLCJuYW1lIjoiQXJ5YW4gV2F5bmUiLCJlbWFpbCI6ImFAYS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjYxNTY3MjIsImV4cCI6MTc2NjE1NzYyMn0.E6MXR8OclhG8IDRocZeAi6_iwN3nXBr2U5c0Bu-8GGM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Reza\",\n    \"lastName\": \"Rezaie\",\n    \"email\": \"a@a.com\",\n    \"contactMethod\": 1,\n    \"contactValue\": \"+989361761222\",\n    \"purpose\": \"My purpose is something...\",\n    \"scheduleTime\": 1,\n    \"scheduleDate\": \"2026-01-20T00:00:00.000Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/meetings",
+							"path": [
+								"meetings"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "398"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"18e-FaBBjXphleNAOCT1N+lO9bWeAf4\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 22 Dec 2025 18:51:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 4,\n        \"firstName\": \"Reza\",\n        \"lastName\": \"Rezaie\",\n        \"email\": \"a@a.com\",\n        \"scheduleTime\": {\n            \"id\": 1,\n            \"label\": \"03:00 pm - 04:00 pm\"\n        },\n        \"scheduleDate\": \"2026-01-20T00:00:00.000Z\",\n        \"contactMethod\": {\n            \"id\": 1,\n            \"label\": \"Phone (Call & SMS)\",\n            \"icon\": \"http://localhost:3000/images/phone.png\"\n        },\n        \"contactValue\": \"+989361761222\",\n        \"purpose\": \"My purpose is something...\",\n        \"createdAt\": \"2025-12-22T18:51:52.000Z\",\n        \"updatedAt\": null\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Edit meeting",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxZGU2NDdiNC01Y2QxLTQwZDMtYWNkYy0yNTA3NzFhOWJlNzUiLCJuYW1lIjoiQXJ5YW4gV2F5bmUiLCJlbWFpbCI6ImFAYS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjYxNTY3MjIsImV4cCI6MTc2NjE1NzYyMn0.E6MXR8OclhG8IDRocZeAi6_iwN3nXBr2U5c0Bu-8GGM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Reza\",\n    \"lastName\": \"Rezaie\",\n    \"email\": \"a@a.com\",\n    \"contactMethod\": 1,\n    \"contactValue\": \"+989361761222\",\n    \"purpose\": \"\",\n    \"scheduleTime\": 1,\n    \"scheduleDate\": \"2026-01-20T00:00:00.000Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{L3000}}/meetings/1",
+					"host": [
+						"{{L3000}}"
+					],
+					"path": [
+						"meetings",
+						"1"
+					]
+				},
+				"description": "| **field name** | **validation** |\n| --- | --- |\n| firstName | string, max-length = 250, required |\n| lastName | string, max-length = 250, required |\n| email | valid email, max-length = 250, required |\n| contactMethod | valid contact method id, required |\n| contactValue | valid contact method value, for email method it is valid email and for others is valid iranian phone number with +989xxxxxxxx format, required |\n| scheduleDate | valid ISO String datetime with 0 hours 0 minutes and 0 seconds in utc, required |\n| scheduleTime | valid schedule time id, required |\n| purpose | string, max-length = 250, optional |"
+			},
+			"response": [
+				{
+					"name": "Edit meeting",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxZGU2NDdiNC01Y2QxLTQwZDMtYWNkYy0yNTA3NzFhOWJlNzUiLCJuYW1lIjoiQXJ5YW4gV2F5bmUiLCJlbWFpbCI6ImFAYS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NjYxNTY3MjIsImV4cCI6MTc2NjE1NzYyMn0.E6MXR8OclhG8IDRocZeAi6_iwN3nXBr2U5c0Bu-8GGM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Reza\",\n    \"lastName\": \"Rezaie\",\n    \"email\": \"a@a.com\",\n    \"contactMethod\": 1,\n    \"contactValue\": \"+989361761222\",\n    \"purpose\": \"\",\n    \"scheduleTime\": 1,\n    \"scheduleDate\": \"2026-01-20T00:00:00.000Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/meetings/1",
+							"path": [
+								"meetings",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "394"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"18a-nJHTugmGQdVaxhRwdyFZVDVssb8\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 22 Dec 2025 18:52:09 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"firstName\": \"Reza\",\n        \"lastName\": \"Rezaie\",\n        \"email\": \"a@a.com\",\n        \"scheduleTime\": {\n            \"id\": 1,\n            \"label\": \"03:00 pm - 04:00 pm\"\n        },\n        \"scheduleDate\": \"2026-01-20T00:00:00.000Z\",\n        \"contactMethod\": {\n            \"id\": 1,\n            \"label\": \"Phone (Call & SMS)\",\n            \"icon\": \"http://localhost:3000/images/phone.png\"\n        },\n        \"contactValue\": \"+989361761222\",\n        \"purpose\": \"\",\n        \"createdAt\": \"2025-12-21T20:11:23.000Z\",\n        \"updatedAt\": \"2025-12-22T18:52:09.000Z\"\n    }\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "L3000",
+			"value": ""
+		}
+	]
+}

@@ -1,13 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import { MONTH_NAMES, DAY_NAMES, MODAL_TEXTS } from "@/lib/constants";
+import { useCalendar } from "@/hooks/useCalendar";
+import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 
 interface TimeSlot {
   value: string;
   label: string;
-  date: string;
+  date?: string;
 }
 
 interface DateTimePickerModalProps {
@@ -23,102 +26,41 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
   onSelect,
   scheduleTimes,
 }) => {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
+  const {
+    currentMonth,
+    selectedDate,
+    days,
+    goToPreviousMonth,
+    goToNextMonth,
+    handleDateClick,
+    isDateInFuture,
+    setSelectedDate,
+  } = useCalendar(new Date());
 
-  const timeSlotsByDate = scheduleTimes.reduce((acc, slot) => {
-    const date = slot.date || slot.value.split(" ")[0] || new Date().toISOString().split("T")[0];
-    if (!acc[date]) {
-      acc[date] = [];
+  const {
+    selectedTimeSlot,
+    availableDates,
+    getTimeSlotsForDate,
+    isDateAvailable,
+    handleTimeSlotClick,
+    validateAndSelect,
+    resetTimeSlot,
+  } = useDateTimePicker({
+    scheduleTimes,
+    onSelect,
+    onClose,
+  });
+
+  const currentTimeSlots = getTimeSlotsForDate(selectedDate);
+
+  const handleDateSelection = (date: Date | null) => {
+    if (handleDateClick(date)) {
+      resetTimeSlot();
     }
-    acc[date].push(slot);
-    return acc;
-  }, {} as Record<string, typeof scheduleTimes>);
-
-  const availableDates = Object.keys(timeSlotsByDate).sort();
-
-  const selectedDateStr = selectedDate.toISOString().split("T")[0];
-  const currentTimeSlots = timeSlotsByDate[selectedDateStr] || [];
-
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-
-  const getDaysInMonth = (date: Date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const daysInMonth = lastDay.getDate();
-    const startingDayOfWeek = firstDay.getDay();
-
-    const days = [];
-    for (let i = 0; i < startingDayOfWeek; i++) {
-      days.push(null);
-    }
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(new Date(year, month, i));
-    }
-    return days;
-  };
-
-  const days = getDaysInMonth(currentMonth);
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  const dayNames = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-
-  const handleDateClick = (date: Date | null) => {
-    if (date) {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const selected = new Date(date);
-      selected.setHours(0, 0, 0, 0);
-      
-      if (selected >= today) {
-        setSelectedDate(date);
-        setSelectedTimeSlot(null);
-      }
-    }
-  };
-
-  const handleTimeSlotClick = (slot: { value: string; label: string }) => {
-    setSelectedTimeSlot(slot.value);
   };
 
   const handleChoose = () => {
-    if (selectedTimeSlot) {
-      const selectedSlot = scheduleTimes.find(s => s.value === selectedTimeSlot);
-      if (selectedSlot) {
-        let meetingDateTime: Date;
-        
-        if (selectedSlot.value.includes("T") || selectedSlot.value.includes(" ")) {
-          meetingDateTime = new Date(selectedSlot.value);
-        } else {
-          const dateStr = selectedDate.toISOString().split("T")[0];
-          meetingDateTime = new Date(dateStr + "T" + selectedSlot.value);
-        }
-        
-        const now = new Date();
-        if (meetingDateTime > now) {
-          const dateStr = selectedDate.toISOString().split("T")[0];
-          onSelect(dateStr, selectedTimeSlot, selectedTimeSlot);
-          onClose();
-        }
-      } else {
-        const dateStr = selectedDate.toISOString().split("T")[0];
-        onSelect(dateStr, selectedTimeSlot, selectedTimeSlot);
-        onClose();
-      }
-    }
-  };
-
-  const isDateAvailable = (date: Date) => {
-    const dateStr = date.toISOString().split("T")[0];
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const checkDate = new Date(date);
-    checkDate.setHours(0, 0, 0, 0);
-    return availableDates.includes(dateStr) && checkDate >= today;
+    validateAndSelect(selectedDate, scheduleTimes);
   };
 
   const isDateSelected = (date: Date | null) => {
@@ -126,19 +68,23 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
     return date.toISOString().split("T")[0] === selectedDate.toISOString().split("T")[0];
   };
 
+  const checkDateAvailability = (date: Date) => {
+    return isDateAvailable(date) && isDateInFuture(date);
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Preferred Time"
-      subtitle="Select when you'd like the agent to get in touch."
+      title={MODAL_TEXTS.dateTime.title}
+      subtitle={MODAL_TEXTS.dateTime.subtitle}
       footer={
         <Button
           onClick={handleChoose}
           disabled={!selectedTimeSlot}
           className="w-full bg-purple-500 hover:bg-purple-600 text-white border-purple-600"
         >
-          Choose
+          {MODAL_TEXTS.dateTime.chooseButton}
         </Button>
       }
     >
@@ -146,11 +92,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
         <div>
           <div className="flex items-center justify-between mb-4">
             <button
-              onClick={() => {
-                const newMonth = new Date(currentMonth);
-                newMonth.setMonth(newMonth.getMonth() - 1);
-                setCurrentMonth(newMonth);
-              }}
+              onClick={goToPreviousMonth}
               className="p-2 hover:bg-gray-100 rounded-lg"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -158,14 +100,10 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
               </svg>
             </button>
             <h3 className="text-lg font-semibold text-gray-900">
-              {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+              {MONTH_NAMES[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </h3>
             <button
-              onClick={() => {
-                const newMonth = new Date(currentMonth);
-                newMonth.setMonth(newMonth.getMonth() + 1);
-                setCurrentMonth(newMonth);
-              }}
+              onClick={goToNextMonth}
               className="p-2 hover:bg-gray-100 rounded-lg"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -175,7 +113,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
           </div>
 
           <div className="grid grid-cols-7 gap-1 mb-2">
-            {dayNames.map((day) => (
+            {DAY_NAMES.map((day) => (
               <div key={day} className="text-center text-sm font-medium text-gray-600 py-2">
                 {day}
               </div>
@@ -187,14 +125,14 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
               if (!date) {
                 return <div key={`empty-${index}`} className="aspect-square" />;
               }
-              const isAvailable = isDateAvailable(date);
+              const isAvailable = checkDateAvailability(date);
               const isSelected = isDateSelected(date);
               const isToday = date.toISOString().split("T")[0] === new Date().toISOString().split("T")[0];
 
               return (
                 <button
                   key={date.toISOString()}
-                  onClick={() => handleDateClick(date)}
+                  onClick={() => handleDateSelection(date)}
                   disabled={!isAvailable}
                   className={`
                     aspect-square rounded-lg text-sm font-medium transition-colors
@@ -216,7 +154,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
         {currentTimeSlots.length > 0 && (
           <div>
             <h4 className="text-sm font-medium text-gray-900 mb-3">
-              Free Slots on {monthNames[selectedDate.getMonth()]} {selectedDate.getDate()}
+              {MODAL_TEXTS.dateTime.freeSlotsLabel} {MONTH_NAMES[selectedDate.getMonth()]} {selectedDate.getDate()}
             </h4>
             <div className="grid grid-cols-2 gap-2">
               {currentTimeSlots.map((slot) => (
@@ -240,7 +178,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
 
         {currentTimeSlots.length === 0 && (
           <p className="text-sm text-gray-500 text-center py-4">
-            No available time slots for this date.
+            {MODAL_TEXTS.dateTime.noSlotsMessage}
           </p>
         )}
       </div>

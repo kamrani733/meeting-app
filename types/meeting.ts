@@ -1,4 +1,4 @@
-export type ContactMethod = "phone" | "email" | "whatsapp" | "telegram" | "facetime" | "imo";
+export type ContactMethod = "phone" | "email" | "whatsapp" | "telegram" | "facetime";
 
 export interface Meeting {
   id: string;
