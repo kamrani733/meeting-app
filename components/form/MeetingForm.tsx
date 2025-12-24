@@ -123,7 +123,7 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-900">
+            <label className="block text-sm font-medium text-gray-900" style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 500, fontSize: "0.875rem", lineHeight: "1.25rem", letterSpacing: "0%" }}>
               First Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -140,7 +140,7 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-900">
+            <label className="block text-sm font-medium text-gray-900" style={{ fontFamily: "var(--font-geist-sans)", fontWeight: 500, fontSize: "0.875rem", lineHeight: "1.25rem", letterSpacing: "0%" }}>
               Last Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -200,7 +200,7 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
           type="submit" 
           disabled={isLoading || !isFormValid} 
           variant={isFormValid ? "purple-filled" : "primary"}
-          className="w-full md:w-auto"
+          className="w-full md:w-[159px] md:h-[44px]"
         >
           {isLoading ? "Submitting..." : "Submit Request"}
         </Button>

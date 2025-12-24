@@ -30,17 +30,27 @@ export const Button: React.FC<ButtonProps> = ({
     ? { borderColor: "#7F56D9", color: "#7F56D9" }
     : {};
 
+  const disabledStyle = props.disabled
+    ? {
+        backgroundColor: "#F3F4F6",
+        borderColor: "#D1D5DB",
+        color: "#6B7280",
+      }
+    : {};
+
+  const finalStyle = props.disabled ? disabledStyle : purpleStyle;
+
   return (
     <button
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-      style={purpleStyle}
+      style={finalStyle}
       onMouseEnter={(e) => {
-        if (variant === "purple-filled") {
+        if (!props.disabled && variant === "purple-filled") {
           e.currentTarget.style.backgroundColor = "#6945B3";
         }
       }}
       onMouseLeave={(e) => {
-        if (variant === "purple-filled") {
+        if (!props.disabled && variant === "purple-filled") {
           e.currentTarget.style.backgroundColor = "#7F56D9";
         }
       }}

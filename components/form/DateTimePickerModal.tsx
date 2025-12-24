@@ -85,6 +85,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
       subtitle={MODAL_TEXTS.dateTime.subtitle}
       footer={
         <Button
+          type="button"
           onClick={handleChoose}
           disabled={!selectedTimeSlot}
           className="w-full md:w-auto text-white"
@@ -107,6 +108,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
         <div className="md:flex-1">
           <div className="flex items-center justify-between mb-4">
             <button
+              type="button"
               onClick={goToPreviousMonth}
               className="p-2 hover:bg-gray-100 rounded-lg"
             >
@@ -118,6 +120,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
               {MONTH_NAMES[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </h3>
             <button
+              type="button"
               onClick={goToNextMonth}
               className="p-2 hover:bg-gray-100 rounded-lg"
             >
@@ -146,6 +149,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
 
               return (
                 <button
+                  type="button"
                   key={date.toISOString()}
                   onClick={() => handleDateSelection(date)}
                   disabled={!isAvailable}
@@ -185,6 +189,7 @@ export const DateTimePickerModal: React.FC<DateTimePickerModalProps> = ({
             <div className="grid grid-cols-1 mx-2 gap-2">
               {currentTimeSlots.map((slot) => (
                 <button
+                    type="button"
                     key={slot.value}
                     onClick={() => handleTimeSlotClick(slot)}
                     className={`

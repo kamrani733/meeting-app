@@ -25,12 +25,21 @@ export const mapFormDataToApi = (data: MeetingFormData) => {
     4: "22:00:00",
   };
   const time = scheduleTimeMap[scheduleTimeId] || "15:00:00";
-  const scheduleDate = data.scheduleDate
-    ? new Date(data.scheduleDate + "T" + time).toISOString()
-    : new Date().toISOString();
+  
+  let scheduleDate: string;
+  if (data.scheduleDate) {
+    const dateOnly = data.scheduleDate.split("T")[0];
+    scheduleDate = `${dateOnly}T00:00:00.000Z`;
+  } else {
+    const now = new Date();
+    scheduleDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}T00:00:00.000Z`;
+  }
 
   let contactValue = data.contactValue;
-  if (data.contactMethod === "phone") {
+  
+  if (data.contactMethod === "email") {
+    contactValue = data.contactValue.trim();
+  } else {
     const cleaned = data.contactValue.replace(/\s/g, "").replace(/-/g, "");
     
     if (cleaned.startsWith("+989") && cleaned.length === 13) {
@@ -60,7 +69,6 @@ export const mapFormDataToApi = (data: MeetingFormData) => {
         contactValue = cleaned;
       }
     }
-    
   }
 
   return {

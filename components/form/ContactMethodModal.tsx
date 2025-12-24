@@ -54,13 +54,30 @@ export const ContactMethodModal: React.FC<ContactMethodModalProps> = ({
       subtitle={MODAL_TEXTS.contactMethod.subtitle}
       footer={
           <Button
+          type="button"
           onClick={handleChoose}
           disabled={!selected}
-          className={`w-full ${
-            selected
-              ? "bg-gray-200 hover:bg-gray-300 text-gray-900"
-              : "bg-gray-200 text-gray-400 cursor-not-allowed"
-          }`}
+          className="w-full text-white"
+          style={selected ? {
+            backgroundColor: "#7F56D9",
+            borderColor: "#6945B3",
+            color: "#FFFFFF"
+          } : {
+            backgroundColor: "#E5E7EB",
+            borderColor: "#E5E7EB",
+            color: "#9CA3AF",
+            cursor: "not-allowed"
+          }}
+          onMouseEnter={(e) => {
+            if (selected) {
+              e.currentTarget.style.backgroundColor = "#6945B3";
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (selected) {
+              e.currentTarget.style.backgroundColor = "#7F56D9";
+            }
+          }}
         >
           {MODAL_TEXTS.contactMethod.chooseButton}
         </Button>
@@ -103,6 +120,7 @@ export const ContactMethodModal: React.FC<ContactMethodModalProps> = ({
             const isSelected = selected === method.value;
             return (
               <button
+                type="button"
                 key={`contact-method-${method.value}-${method.label}-${index}`}
                 onClick={() => handleSelect(method.value)}
                 className={`

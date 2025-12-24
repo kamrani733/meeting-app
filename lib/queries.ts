@@ -78,9 +78,15 @@ export const useUpdateMeeting = (id: string) => {
   return useMutation({
     mutationFn: async (data: MeetingFormData) => {
       const apiData = mapFormDataToApi(data);
-      const response = await api.put(`/meetings/${id}`, apiData);
-      const meetingData = response.data.data || response.data;
-      return mapApiToMeeting(meetingData);
+      console.log("Updating meeting with API data:", JSON.stringify(apiData, null, 2));
+      try {
+        const response = await api.put(`/meetings/${id}`, apiData);
+        const meetingData = response.data.data || response.data;
+        return mapApiToMeeting(meetingData);
+      } catch (error: any) {
+        console.error("Update API Error:", error.response?.data || error.message);
+        throw error;
+      }
     },
     onSuccess: (data: Meeting) => {
       queryClient.setQueryData(["meeting", id], data);
