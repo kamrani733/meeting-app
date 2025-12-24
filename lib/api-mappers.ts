@@ -87,7 +87,7 @@ const formatPhoneForDisplay = (phone: string): string => {
   if (!phone) return phone;
   const cleaned = phone.replace(/\s/g, "");
   if (cleaned.startsWith("+989") && cleaned.length === 13) {
-    const digits = cleaned.slice(4);
+    const digits = cleaned.slice(3);
     return `+98 ${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`;
   }
   return phone;

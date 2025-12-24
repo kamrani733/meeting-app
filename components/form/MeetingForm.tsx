@@ -46,7 +46,7 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
   } = methods;
 
   useEffect(() => {
-    if (defaultValues) {
+    if (defaultValues && Object.keys(defaultValues).length > 0) {
       reset({
         firstName: defaultValues.firstName || "",
         lastName: defaultValues.lastName || "",
@@ -58,7 +58,17 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
         purpose: defaultValues.purpose || "",
       });
     }
-  }, [defaultValues, reset]);
+  }, [
+    defaultValues?.firstName,
+    defaultValues?.lastName,
+    defaultValues?.email,
+    defaultValues?.contactMethod,
+    defaultValues?.contactValue,
+    defaultValues?.scheduleDate,
+    defaultValues?.scheduleTime,
+    defaultValues?.purpose,
+    reset,
+  ]);
 
   const firstName = watch("firstName");
   const lastName = watch("lastName");
@@ -94,7 +104,7 @@ export const MeetingForm: React.FC<MeetingFormProps> = ({
     scheduleDate && 
     scheduleTime;
   
-  const isFormValid = hasRequiredFields && isValid;
+  const isFormValid = (hasRequiredFields && isValid) || isDirty;
 
   return (
     <FormProvider {...methods}>
